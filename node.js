@@ -1,33 +1,36 @@
+// Import required modules
 const express = require('express');
 const BitcoinCore = require('bitcoin-core');
 const redis = require('redis');
 
+// Initialize the Express application
 const app = express();
 const port = 3000;
 
-// Connect to Redis
+// Connect to Redis for caching purposes
 const redisClient = redis.createClient({
     host: 'localhost',
-    port: 6379
+    port: 6379 // default Redis port
 });
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
 
-// Set up Bitcoin Core client
+// Set up Bitcoin Core client for RPC calls
 const client = new BitcoinCore({
-    network: 'mainnet', // Make sure this matches your Bitcoin Core network
-    username: 'your_rpc_username',
-    password: 'your_rpc_password',
+    network: 'mainnet', // Ensure this matches your Bitcoin Core network
+    username: 'your_rpc_username', // Replace with your actual username
+    password: 'your_rpc_password', // Replace with your actual password
     host: 'localhost',
-    port: 8332 // This is the default port; change it if yours is different
+    port: 8332 // Default Bitcoin Core RPC port, change if yours is different
 });
 
-// Serve latest inscriptions
+// API endpoint to serve the latest ordinals inscriptions
 app.get('/latest-inscriptions', async (req, res) => {
     try {
-        const blockHash = await client.getBlockHash(0); // Get latest block hash
+        // Placeholder for retrieving the latest block hash - this should be dynamic
+        const blockHash = await client.getBlockHash(0);
+        // Fetch the block data from Bitcoin Core
         const block = await client.getBlock(blockHash);
         // Process the block to extract ordinals inscriptions
-        // This function needs to be implemented to parse ordinals from a block
         const inscriptions = parseBlockForInscriptions(block);
         res.json(inscriptions);
     } catch (error) {
@@ -36,12 +39,11 @@ app.get('/latest-inscriptions', async (req, res) => {
     }
 });
 
-// Search inscriptions
+// API endpoint for searching inscriptions
 app.get('/search', async (req, res) => {
     const { query } = req.query;
     try {
-        // Implement search logic that queries your database for inscriptions
-        // This function needs to be implemented to search the database
+        // Implement search logic that queries the database for inscriptions
         const results = await searchInscriptions(query);
         res.json(results);
     } catch (error) {
@@ -50,19 +52,23 @@ app.get('/search', async (req, res) => {
     }
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
-
+// Function to parse ordinals from a Bitcoin block
 async function parseBlockForInscriptions(block) {
     // TODO: Implement the logic to parse ordinals from a block
+    // This function will depend on how Ordinals are structured within block transactions
     // Placeholder for parsed inscriptions
     return [];
 }
 
+// Function to search inscriptions in the database
 async function searchInscriptions(query) {
     // TODO: Implement the search logic
+    // This function will involve querying the database and returning results
     // Placeholder for search results
     return [];
 }
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
