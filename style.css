@@ -1,0 +1,35 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+header {
+    text-align: center;
+}
+#search-section {
+    margin: 20px;
+    text-align: center;
+}
+#search-input {
+    width: 60%;
+    padding: 10px;
+}
+#search-button {
+    padding: 10px 20px;
+}
+#inscriptions-section {
+    margin: 20px;
+}
+.inscription-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px;
+    width: calc(33.333% - 20px);
+    float: left;
+    box-sizing: border-box;
+}
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .inscription-card {
+        width: 100%;
+    }
+}
