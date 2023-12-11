@@ -1,0 +1,10 @@
+// utils.js
+async function parseBlockForInscriptions(client) {
+  // Bitcoin Core RPC call to get the latest block and parse for inscriptions
+  // Return an array of inscription objects
+}
+
+async function searchInscriptionsInDb(query) {
+  // Query the database for inscriptions matching the search criteria
+  // Return search results
+}
