@@ -1,0 +1,44 @@
+// server.js
+const express = require('express');
+const BitcoinCore = require('bitcoin-core');
+const { parseBlockForInscriptions, searchInscriptionsInDb } = require('./utils');
+
+const app = express();
+const port = 3000;
+
+// Set up Bitcoin Core client
+const client = new BitcoinCore({
+  network: 'mainnet',
+  username: 'your_rpc_username',
+  password: 'your_rpc_password',
+  host: 'localhost',
+  port: 8332
+});
+
+// Endpoint to get the latest inscriptions
+app.get('/latest-inscriptions', async (req, res) => {
+  try {
+    // Logic to retrieve the latest inscriptions from the blockchain
+    const latestInscriptions = await parseBlockForInscriptions(client);
+    res.json(latestInscriptions);
+  } catch (error) {
+    res.status(500).send('Error fetching latest inscriptions');
+  }
+});
+
+// Endpoint to search inscriptions
+app.get('/search', async (req, res) => {
+  const { query } = req.query;
+  try {
+    // Logic to search inscriptions in the database
+    const results = await searchInscriptionsInDb(query);
+    res.json(results);
+  } catch (error) {
+    res.status(500).send('Error performing search');
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
