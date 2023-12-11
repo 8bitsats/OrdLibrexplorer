@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', function() {
     fetchInscriptions().then(displayInscriptions);
 
@@ -27,9 +26,4 @@ function displayInscriptions(inscriptions) {
         element.className = 'inscription-card';
         element.innerHTML = `
             <h3>Inscription #${inscription.id}</h3>
-            <p>${inscription.content}</p>
-            <!-- More details can be added here -->
-        `;
-        container.appendChild(element);
-    });
-}
+            <p>${inscription.content}</
